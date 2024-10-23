@@ -43,7 +43,7 @@ public class Main {
                 }
             }
         }
-        Double kon_rez = (Math.round(rezultat * 100)) / 100.00;
+        double kon_rez = (Math.round(rezultat * 100)) / 100.00;
         System.out.println("Konacni rezultat: " + kon_rez);
     }
 
