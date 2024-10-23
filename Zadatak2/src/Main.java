@@ -20,11 +20,12 @@ public class Main {
         operacija = ulaz.nextLine();
         double n;
         System.out.print("Unesite brojeve: ");
-        List<Double> brojevi = new ArrayList<Double>();
+        List<Double> brojevi = new ArrayList<>();
         do{
             n = ulaz.nextDouble();
-            if(n == -400) break;
-            brojevi.add(n);
+            if(n != -400) {
+                brojevi.add(n);
+            }
         }while(n != -400);
         double rezultat = brojevi.get(0);
         if(operacija.equals("plus")){
