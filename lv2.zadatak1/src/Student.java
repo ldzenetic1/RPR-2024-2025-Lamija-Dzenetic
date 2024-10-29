@@ -17,32 +17,16 @@ public class Student {
     Date datumRodjenja;
     Integer godinaStudija;
     List<Integer> ocjene;
-    public Double Prosjek() throws DijeljenjeSNulomException {
-        if (ocjene == null || ocjene.size()== 0) {
-            throw new DijeljenjeSNulomException("Student nema nijednu unesenu ocjenu.");
-        }
-        int suma = 0;
-        for (int ocjena : ocjene) {
-            suma += ocjena;
-        }
-        return (double) suma / ocjene.size();
-    }
-/*public String toString() {
-    return "Student: " + ime + " " + prezime + ", broj indeksa: " + brojIndeksa + ", prosjek: " + Prosjek();
-}*/
-public String toString() {
-    try {
-        return "Student: " + ime + " " + prezime + ", broj indeksa: " + brojIndeksa + ", prosjek: " + Prosjek();
-    } catch (DijeljenjeSNulomException e) {
-        System.out.println(e.getMessage());
-        return "";
-    }
-}
+
+
     public String getIme() {
         return ime;
     }
     public void setIme(String ime) {
         this.ime = ime;
+    }
+    public void setOdsjek(Odsjek odsjek){
+    this.odsjek = odsjek;
     }
     public Date getDatumRodjenja() {
         return datumRodjenja;
@@ -63,7 +47,7 @@ public String toString() {
         this.brojIndeksa = brojIndeksa;
     }
     public void setOdsjek(String odsjek){
-        this.odsjek = odsjek;
+        this.odsjek = Odsjek.valueOf(odsjek.toUpperCase());
     }
     public void setGodinaStudija(Integer godinaStudija) {
         if (this.odsjek != Odsjek.RS && godinaStudija > 0 && godinaStudija < 6)
@@ -73,7 +57,7 @@ public String toString() {
     }
 
     public Student(String ime, String prezime, Date datumRodjenja, String brojIndeksa,
-                   String odsjek, Integer godinaStudija) throws Exception
+                   Odsjek odsjek, Integer godinaStudija) throws Exception
     {
         setIme(ime);
         setPrezime(prezime);
@@ -109,31 +93,24 @@ public String toString() {
 
         this.datumRodjenja = datumRodjenja;
     }
-}
-public class Main {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        boolean uspjesanUnos = false;
-        Student student = null;
-        while (!uspjesanUnos) {
-            try {
-                System.out.printf("Datum rođenja (dd/mm/yyyy):");
-                String datumString = scanner.nextLine();
-                int godina = Integer.valueOf(datumString.substring(6)) - 1900;
-                int mjesec = Integer.valueOf(datumString.substring(3, 5)) - 1;
-                int dan = Integer.valueOf(datumString.substring(0, 2));
-                Date datumDate = new Date(godina, mjesec, dan);
-                student = new Student("Ime", "Prezime", datumDate, "12345", Odsjek.RI, 2);
-                uspjesanUnos = true;
-            } catch (PremladStudentException e) {
-                System.out.println(e.getMessage());
-                return;
-            } catch (StudentBuducnostException e) {
-                System.out.println(e.getMessage());
-                System.out.println("Molimo ponovite unos datuma rođenja!");
-            }
+    public Double Prosjek() throws DijeljenjeSNulomException {
+        if (ocjene == null || ocjene.size()== 0) {
+            throw new DijeljenjeSNulomException("Student nema nijednu unesenu ocjenu!");
         }
-        System.out.println("Unos studenta uspješan! " + student);
+        int suma = 0;
+        for (int ocjena : ocjene) {
+            suma += ocjena;
+        }
+        return (double) suma / ocjene.size();
+    }
+    public String toString() {
+        try {
+            return "Student: " + ime + " " + prezime + ", broj indeksa: " + brojIndeksa + ", prosjek: " + Prosjek();
+        } catch (DijeljenjeSNulomException e) {
+            System.out.println(e.getMessage());
+            System.out.println("Nije moguće ispisati podatke");
+            return "";
+        }
     }
 }
 
