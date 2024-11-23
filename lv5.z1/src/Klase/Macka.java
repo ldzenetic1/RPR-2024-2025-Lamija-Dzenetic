@@ -11,6 +11,6 @@ public class Macka extends Ljubimac {
 
     @Override
     public String PrikaziInformacije() {
-        return "Mačka: " + vrstaMacke;
+        return "Klase.Mačka: " + vrstaMacke;
     }
 }

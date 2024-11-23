@@ -6,8 +6,7 @@ import java.util.ArrayList;
 import Klase.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Assertions;
 
 public class TestClass
 {
@@ -32,10 +31,10 @@ public class TestClass
         }
         catch (Exception ex)
         {
-            assertFalse(true);
+            Assertions.assertFalse(true);
         }
-        assertTrue(veterinar.getPregledi().size() == 1);
-        assertThrows(ValidacijaVrsteException.class, () ->
+        Assertions.assertTrue(veterinar.getPregledi().size() == 1);
+        Assertions.assertThrows(ValidacijaVrsteException.class, () ->
         {
             veterinar.PregledajLjubimca(ljubimci.get(1));
         });
@@ -55,6 +54,6 @@ public class TestClass
         {
             rezultat += o.PrikaziInformacije() + " ";
         }
-        assertEquals(rezultat, "Pas: Zlatni Retreiver Mačka: Sijamska Veterinar: Doktor ");
+        Assertions.assertEquals(rezultat, "Klase.Pas: ZlatniRetreiver Klase.Mačka: Sijamska Klase.Veterinar: Doktor ");
     }
 }
