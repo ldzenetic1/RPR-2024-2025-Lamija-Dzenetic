@@ -1,0 +1,3 @@
+Razvoj programskih rjesenja,6.0
+Osnove elektrotehnike,7.0
+Tehnike programiranja,7.5
