@@ -194,52 +194,59 @@ public class OsobaModel
         // lista koja cuva parametre
         List<Object> parametri = new ArrayList<>();
 
-        // provjera vrijednosti pojedinih polja (da li su prazna ili ne)
-        if (novoIme != null && !novoIme.isEmpty()) {
+        // Provjera dužine imena
+        if (novoIme != null && novoIme.length() >= 3) {
             upit.append("ime = ?, ");
             parametri.add(novoIme);
             imaPromjene = true;
         }
-        if (novoPrezime != null && !novoPrezime.isEmpty()) {
+
+        // Provjera prezimena
+        if (novoPrezime != null && novoPrezime.length() >= 3) {
             upit.append("prezime = ?, ");
             parametri.add(novoPrezime);
             imaPromjene = true;
         }
+
+        // Provjera adrese
         if (novaAdresa != null && !novaAdresa.isEmpty()) {
             upit.append("adresa = ?, ");
             parametri.add(novaAdresa);
             imaPromjene = true;
         }
-        if (noviDatumRodjenja != null) {
-            upit.append("datumRodjenja = ?, ");
-            parametri.add(dateFormat.format(noviDatumRodjenja));  // Format the date
-            imaPromjene = true;
+
+        // Provjera datuma rođenja i matičnog broja
+        if (noviDatumRodjenja != null && noviMaticniBroj != null) {
+            String datumRodjenjaString = dateFormat.format(noviDatumRodjenja);
+            if (noviMaticniBroj.startsWith(datumRodjenjaString.replace("-", "").substring(0, 6))) {
+                upit.append("datumRodjenja = ?, ");
+                parametri.add(dateFormat.format(noviDatumRodjenja));
+                upit.append("maticniBroj = ?, ");
+                parametri.add(noviMaticniBroj);
+                imaPromjene = true;
+            }
         }
-        if (noviMaticniBroj != null && !noviMaticniBroj.isEmpty()) {
-            upit.append("maticniBroj = ?, ");
-            parametri.add(noviMaticniBroj);
-            imaPromjene = true;
-        }
+
         if (novaUloga != null) {
             upit.append("uloga = ?, ");
             parametri.add(novaUloga.name());
             imaPromjene = true;
         }
 
-        // izadji ranije ako nema polja za azuriranje
+        // Izadji ako nema polja za ažuriranje
         if (!imaPromjene) {
             return "Sva polja su ista kao i prije!";
         }
 
-        // uklanjanje zareza na kraju upita i razmaka iz SQL upita
+        // Uklanjanje zareza na kraju upita
         upit.delete(upit.length() - 2, upit.length());
         upit.append(" WHERE id = ?");
 
-        // dodaj id kao parametar
         parametri.add(id);
-        try (Connection conn = connect(); PreparedStatement pstmt = conn.prepareStatement(upit.toString())) {
 
-            // dodavanje parameatara u PreparedStatement
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(upit.toString())) {
+
             for (int i = 0; i < parametri.size(); i++) {
                 pstmt.setObject(i + 1, parametri.get(i));
             }
@@ -254,6 +261,7 @@ public class OsobaModel
             return e.getMessage();
         }
     }
+
     private static OsobaModel instance = null;
 
     public static OsobaModel getInstance() {
@@ -265,6 +273,24 @@ public class OsobaModel
 
     public static void removeInstance() {
         instance = null;
+    }
+    public static String obrisiOsobuPoId(Integer id) {
+        String upit = "DELETE FROM Osoba WHERE id = ?";
+
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(upit)) {
+
+            pstmt.setInt(1, id);
+            int brojObrisanih = pstmt.executeUpdate();
+
+            if (brojObrisanih > 0) {
+                return "Osoba je uspjesno obrisana!";
+            } else {
+                return "Ne postoji osoba sa datim id-em";
+            }
+        } catch (SQLException e) {
+            return e.getMessage();
+        }
     }
 
 
