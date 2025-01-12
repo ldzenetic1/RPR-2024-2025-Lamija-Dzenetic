@@ -2,9 +2,7 @@ package com.example.lv9z1.controller;
 
 
 
-import com.example.lv9z1.model.Osoba;
-import com.example.lv9z1.model.OsobaModel;
-import com.example.lv9z1.model.Uloga;
+import com.example.lv9z1.model.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -116,5 +114,5 @@ public class OsobaController {
         });
     }
 
-
+    OsobaModel osobaModel = OsobaModel.getInstance();
 }

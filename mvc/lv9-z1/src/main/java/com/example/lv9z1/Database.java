@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 
 public class Database {
-    private static final String DB_URL = "jdbc:sqlite:baza.db";
+    private static final String DB_URL = "jdbc:sqlite:src/baza.db";
 
     public static Connection connect(){
         Connection conn  = null;

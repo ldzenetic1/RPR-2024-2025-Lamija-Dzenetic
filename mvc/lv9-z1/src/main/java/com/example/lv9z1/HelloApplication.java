@@ -1,6 +1,6 @@
 package com.example.lv9z1;
 
-import com.example.lv9z1.model.OsobaModel;
+import com.example.lv9z1.model.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -11,32 +11,19 @@ import java.sql.Connection;
 
 public class HelloApplication extends Application {
     @Override
-    public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
-        stage.setTitle("Hello!");
-        stage.setScene(scene);
-        stage.show();
+    public void start(Stage primaryStage) {
+        // Kreiraj tabelu ako ne postoji
+        OsobaModel.kreirajTabeluAkoNePostoji();
+        // Obriši sve redove iz tabele
+        OsobaModel.isprazniTabeluOsoba();
 
+        // Ubaci početne podatke
+        OsobaModel.napuniInicijalnimPodacima();
+
+        System.out.println("Sve operacije su završene!");
     }
-    /*private static OsobaModel instance = null;
-
-    public static OsobaModel getInstance() {
-        if (instance == null) {
-            instance = new OsobaModel();
-        }
-        return instance;
-    }
-
-    public static void removeInstance() {
-        instance = null;
-    }*/
 
     public static void main(String[] args) {
-
-        //launch();
-
-        Connection connect = Database.connect();
-        OsobaModel osobaModel = OsobaModel.getInstance();
+        launch(args);
     }
 }

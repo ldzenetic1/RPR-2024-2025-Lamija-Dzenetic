@@ -1,9 +1,5 @@
 package com.example.lv9z1.model;
-
-import com.example.lv9z1.model.Osoba;
-
 import javafx.collections.*;
-
 import java.sql.*;
 import java.util.*;
 import java.io.*;
@@ -15,15 +11,15 @@ public class OsobaModel
 {
     private ObservableList<Osoba> osobe;
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-    private static final String DATABASE_URL = "jdbc:sqlite:baza.db";
+    private static final String DATABASE_URL = "jdbc:sqlite:src/baza.db";
 
     private static Connection connect() throws SQLException {
         return DriverManager.getConnection(DATABASE_URL);
     }
 
-    public OsobaModel() {
+   /* public OsobaModel() {
         osobe = FXCollections.observableArrayList();
-    }
+    }*/
     public String dodajOsobu(Integer id, String ime, String prezime, String adresa, Date datumRodjenja, String maticniBroj, Uloga uloga) {
         try {
             Osoba newOsoba = new Osoba(id, ime, prezime, adresa, datumRodjenja, maticniBroj, uloga);
